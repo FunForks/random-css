@@ -1,0 +1,74 @@
+
+/* A hard-coded LCG randomizer, written with CSS
+  * mathematical operators. Change the seed --s
+  * to create a new set of 7 random numbers
+  */
+
+  :root {
+  --s: 1;
+  --a: 214013;
+  --c: 2531011;
+  --m: pow(2, 31);
+  /* Limit left values between 0 and 500 */
+  --p: 500;
+  /* Keep top values between 0 and 500 */
+  --q: 5000000;
+
+  --s01: mod(
+    calc((var(--s) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left01: calc(1px *  mod(var(--s01), var(--p)));
+  --top01: calc(1px * var(--s01) / var(--q));
+
+  --s02: mod(
+    calc((var(--s01) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left02: calc(1px *  mod(var(--s02), var(--p)));
+  --top02: calc(1px * var(--s02) / var(--q));
+
+  --s03: mod(
+    calc((var(--s02) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left03: calc(1px *  mod(var(--s03), var(--p)));
+  --top03: calc(1px * var(--s03) / var(--q));
+
+  --s04: mod(
+    calc((var(--s03) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left04: calc(1px *  mod(var(--s04), var(--p)));
+  --top04: calc(1px * var(--s04) / var(--q));
+
+  --s05: mod(
+    calc((var(--s04) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left05: calc(1px *  mod(var(--s05), var(--p)));
+  --top05: calc(1px * var(--s05) / var(--q));
+
+  --s06: mod(
+    calc((var(--s05) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left06: calc(1px *  mod(var(--s06), var(--p)));
+  --top06: calc(1px * var(--s06) / var(--q));
+
+  --s07: mod(
+    calc((var(--s06) * var(--a)) + var(--c)),
+    var(--m)
+  );
+  --left07: calc(1px *  mod(var(--s07), var(--p)));
+  --top07: calc(1px * var(--s07) / var(--q));
+
+  counter-reset:
+    s01 var(--s01)
+    s02 var(--s02)
+    s03 var(--s03)
+    s04 var(--s04)
+    s05 var(--s05)
+    s06 var(--s06)
+    s07 var(--s07);
+}
