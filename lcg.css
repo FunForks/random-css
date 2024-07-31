@@ -5,7 +5,7 @@
   */
 
   :root {
-  --s: 1;
+  --s: 12;
   --a: 214013;
   --c: 2531011;
   --m: pow(2, 31);
@@ -14,8 +14,13 @@
   /* Keep top values between 0 and 500 */
   --q: 5000000;
 
-  --s01: mod(
+  --s00: mod(
     calc((var(--s) * var(--a)) + var(--c)),
+    var(--m)
+  );
+
+  --s01: mod(
+    calc((var(--s00) * var(--a)) + var(--c)),
     var(--m)
   );
   --left01: calc(1px *  mod(var(--s01), var(--p)));
