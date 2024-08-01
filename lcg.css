@@ -4,7 +4,7 @@
   * to create a new set of 7 random numbers
   */
 
-  :root {
+  .lcg {
   --s: 12;
   --a: 214013;
   --c: 2531011;
