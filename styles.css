@@ -1,52 +1,138 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  --light: #ddd;
-  --mid: #888;
-  --dark: #222;
-  --gap: 0.5em;
-
-  --primary: #060;
-  --primary-border: #393;
-  --primary-active: #030;
-
-  color: var(--light);
-  background-color: var(--dark);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  color: #fff;
+  background-color: #000;
 }
 
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-main {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  border: 1px solid white;
+/* THE ANIMATION */
+
+main.lcg {
+  /* Limit left values between 0 and 800 (up to 80vw)
+   * <div>s are 20vmin in diameter, so they will stay
+   * in view at all times.
+   */
+  --p: 800;
+  /* Keep top between 0 and 800 for the same reason. */
+  --q: 2700000;
+
+  --left1: calc(0.1vw *  mod(var(--r1), var(--p)));
+  --left2: calc(0.1vw *  mod(var(--r2), var(--p)));
+  --left3: calc(0.1vw *  mod(var(--r3), var(--p)));
+  --left4: calc(0.1vw *  mod(var(--r4), var(--p)));
+  --left5: calc(0.1vw *  mod(var(--r5), var(--p)));
+  --left6: calc(0.1vw *  mod(var(--r6), var(--p)));
+  --left7: calc(0.1vw *  mod(var(--r7), var(--p)));
+
+  --top1: calc(0.1vh * var(--r1) / var(--q));
+  --top2: calc(0.1vh * var(--r2) / var(--q));
+  --top3: calc(0.1vh * var(--r3) / var(--q));
+  --top4: calc(0.1vh * var(--r4) / var(--q));
+  --top5: calc(0.1vh * var(--r5) / var(--q));
+  --top6: calc(0.1vh * var(--r6) / var(--q));
+  --top7: calc(0.1vh * var(--r7) / var(--q));
+
+  animation-name: shuffle;
+  animation-duration: 100s;
+  animation-iteration-count: infinite;
 }
 
+
+/* Checkbox to toggle animation */
+.lcg:has(input:checked) {
+  animation-play-state: paused;
+}
+
+input ~ span::after {
+  content: "Pause animation"
+}
+
+input:checked ~ span::after {
+  content: "Animation paused"
+}
+
+
+/* Change the value of --seed 50 times per cycle.
+ * The pseudo-random values for --r0 to --r7 will
+ * be recalculated in a cascade.
+ */
+@keyframes shuffle {
+  0%   { --seed:  0; }
+  2%   { --seed:  1; }
+  4%   { --seed:  2; }
+  6%   { --seed:  3; }
+  8%   { --seed:  4; }
+  10%  { --seed:  5; }
+  12%  { --seed:  6; }
+  14%  { --seed:  7; }
+  16%  { --seed:  8; }
+  18%  { --seed:  9; }
+  20%  { --seed: 10; }
+  22%  { --seed: 11; }
+  24%  { --seed: 12; }
+  26%  { --seed: 13; }
+  28%  { --seed: 14; }
+  30%  { --seed: 15; }
+  32%  { --seed: 16; }
+  34%  { --seed: 17; }
+  36%  { --seed: 18; }
+  38%  { --seed: 19; }
+  40%  { --seed: 20; }
+  42%  { --seed: 21; }
+  44%  { --seed: 22; }
+  46%  { --seed: 23; }
+  48%  { --seed: 24; }
+  50%  { --seed: 25; }
+  52%  { --seed: 26; }
+  54%  { --seed: 27; }
+  56%  { --seed: 28; }
+  58%  { --seed: 29; }
+  60%  { --seed: 30; }
+  62%  { --seed: 31; }
+  64%  { --seed: 32; }
+  66%  { --seed: 33; }
+  68%  { --seed: 34; }
+  70%  { --seed: 35; }
+  72%  { --seed: 36; }
+  74%  { --seed: 37; }
+  76%  { --seed: 38; }
+  78%  { --seed: 39; }
+  80%  { --seed: 40; }
+  82%  { --seed: 41; }
+  84%  { --seed: 42; }
+  86%  { --seed: 43; }
+  88%  { --seed: 44; }
+  90%  { --seed: 45; }
+  92%  { --seed: 46; }
+  94%  { --seed: 47; }
+  96%  { --seed: 48; }
+  98%  { --seed: 49; }
+  100% { --seed: 50; }
+}
+
+
+/* THE ANIMATED OBJECTS */
+
+/* Make div size responsive; apply transition */
 div {
-  --size: 100px;
-  position: absolute;
+  --size: 20vmin;
+  font-size: calc(0.15 * var(--size));
   width: var(--size);
   height: var(--size);
-  border-radius: 100px;
+  border-radius: var(--size);
+
+  position: absolute;
   transition: all 2s ease-in-out;
 }
+/* Show the random number the div is using
+ * • Little-end digits define value for `left`
+ * • Big-end digits define value for `top`
+ */
 div::after {
   color: #fff;
   font-weight: bold;
@@ -56,132 +142,67 @@ div::after {
   align-items: center;
 }
 
-div#s01 {
-  top: var(--top01);
-  left: var(--left01);
+
+div#r1 {
+  top: var(--top1);
+  left: var(--left1);
   background-color: #900;
+  z-index: mod(var(--seed) + 1, 7);
 }
-div#s01::after {
-  content: counter(s01);
+div#r1::after {
+  content: counter(r1);
 }
-div#s02 {
-  top: var(--top02);
-  left: var(--left02);
+div#r2 {
+  top: var(--top2);
+  left: var(--left2);
   background-color: #a60;
+  z-index: mod(var(--seed) + 2, 7);
 }
-div#s02::after {
-  content: counter(s02);
+div#r2::after {
+  content: counter(r2);
 }
-div#s03 {
-  top: var(--top03);
-  left: var(--left03);
+div#r3 {
+  top: var(--top3);
+  left: var(--left3);
   background-color: #990;
+  z-index: mod(var(--seed) + 3, 7);
 }
-div#s03::after {
-  content: counter(s03);
+div#r3::after {
+  content: counter(r3);
 }
-div#s04 {
-  top: var(--top04);
-  left: var(--left04);
+div#r4 {
+  top: var(--top4);
+  left: var(--left4);
   background-color: #093;
+  z-index: mod(var(--seed) + 4, 7);
 }
-div#s04::after {
-  content: counter(s04);
+div#r4::after {
+  content: counter(r4);
 }
-div#s05 {
-  top: var(--top05);
-  left: var(--left05);
+div#r5 {
+  top: var(--top5);
+  left: var(--left5);
   background-color: #059;
+  z-index: mod(var(--seed) + 5, 7);
 }
-div#s05::after {
-  content: counter(s05);
+div#r5::after {
+  content: counter(r5);
 }
-div#s06 {
-  top: var(--top06);
-  left: var(--left06);
+div#r6 {
+  top: var(--top6);
+  left: var(--left6);
   background-color: #009;
+  z-index: mod(var(--seed) + 6, 7);
 }
-div#s06::after {
-  content: counter(s06);
+div#r6::after {
+  content: counter(r6);
 }
-div#s07 {
-  top: var(--top07);
-  left: var(--left07);
+div#r7 {
+  top: var(--top7);
+  left: var(--left7);
   background-color: #609;
+  z-index: mod(var(--seed), 7);
 }
-div#s07::after {
-  content: counter(s07);
-}
-
-.lcg {
-  animation-name: scramble;
-  animation-duration: 100s;
-  animation-iteration-count: infinite;
-}
-
-.lcg:has(input:checked) {
-  animation-play-state: paused;
-}
-
-  input ~ span::after {
-    content: "Pause animation"
-  }
-
-  input:checked ~ span::after {
-    content: "Animation paused"
-  }
-
-
-@keyframes scramble {
-  0%   { --s:  51; }
-  2%   { --s:  1; }
-  4%   { --s:  2; }
-  6%   { --s:  3; }
-  8%   { --s:  4; }
-  10%  { --s:  5; }
-  12%  { --s:  6; }
-  14%  { --s:  7; }
-  16%  { --s:  8; }
-  18%  { --s:  9; }
-  20%  { --s: 10; }
-  22%  { --s: 11; }
-  24%  { --s: 12; }
-  26%  { --s: 13; }
-  28%  { --s: 14; }
-  30%  { --s: 15; }
-  32%  { --s: 16; }
-  34%  { --s: 17; }
-  36%  { --s: 18; }
-  38%  { --s: 19; }
-  40%  { --s: 20; }
-  42%  { --s: 21; }
-  44%  { --s: 22; }
-  46%  { --s: 23; }
-  48%  { --s: 24; }
-  50%  { --s: 25; }
-  52%  { --s: 26; }
-  54%  { --s: 27; }
-  56%  { --s: 28; }
-  58%  { --s: 29; }
-  60%  { --s: 30; }
-  62%  { --s: 31; }
-  64%  { --s: 32; }
-  66%  { --s: 33; }
-  68%  { --s: 34; }
-  70%  { --s: 35; }
-  72%  { --s: 36; }
-  74%  { --s: 37; }
-  76%  { --s: 38; }
-  78%  { --s: 39; }
-  80%  { --s: 40; }
-  82%  { --s: 41; }
-  84%  { --s: 42; }
-  86%  { --s: 43; }
-  88%  { --s: 44; }
-  90%  { --s: 45; }
-  92%  { --s: 46; }
-  94%  { --s: 47; }
-  96%  { --s: 48; }
-  98%  { --s: 49; }
-  100% { --s: 50; }
+div#r7::after {
+  content: counter(r7);
 }
